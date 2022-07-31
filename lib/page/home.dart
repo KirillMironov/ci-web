@@ -1,8 +1,6 @@
 import 'package:ci_web/port/repositories.dart';
 import 'package:flutter/material.dart';
 
-import 'add_repository.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage(this.repositoriesService);
 
@@ -22,15 +20,7 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'add repository',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      AddRepository(widget.repositoriesService),
-                ),
-              );
-            },
+            onPressed: () => Navigator.pushNamed(context, '/add'),
           ),
         ],
       ),

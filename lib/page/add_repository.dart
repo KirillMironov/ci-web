@@ -4,31 +4,27 @@ import 'package:flutter/material.dart';
 
 import '../port/repositories.dart';
 
-class AddRepository extends StatefulWidget {
-  const AddRepository(this.repositoriesService);
+class AddRepository extends StatelessWidget {
+  AddRepository(this.repositoriesService);
 
   final RepositoriesService repositoriesService;
 
-  @override
-  State<AddRepository> createState() => _AddRepositoryState();
-}
-
-class _AddRepositoryState extends State<AddRepository> {
   final _formKey = GlobalKey<FormState>();
   final _urlController = TextEditingController();
   final _branchController = TextEditingController();
   final _pollingIntervalController = TextEditingController();
 
-  _addRepository() async {
+  void _addRepository(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      await widget.repositoriesService
+      await repositoriesService
           .putRepository(Repository(
               url: _urlController.text,
               branch: _branchController.text,
               pollingInterval: _pollingIntervalController.text))
-          .catchError((e) {
+          .then(Navigator.of(context).pop)
+          .catchError((err) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(e.toString()),
+          content: Text(err.toString()),
           duration: const Duration(seconds: 3),
         ));
       });
@@ -62,7 +58,7 @@ class _AddRepositoryState extends State<AddRepository> {
                 hintText: 'polling interval',
               ),
               ElevatedButton(
-                onPressed: _addRepository,
+                onPressed: () => _addRepository(context),
                 child: const Text('Add'),
               ),
             ],

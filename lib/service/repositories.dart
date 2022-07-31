@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:ci_web/domain/repository.dart';
 import 'package:ci_web/port/repositories.dart';
@@ -12,24 +13,26 @@ class Repositories implements RepositoriesService {
   @override
   Future putRepository(Repository repository) async {
     final uri = Uri.parse('$apiEndpoint/repositories');
+    final body = jsonEncode(repository.toJson());
 
-    http.put(uri, body: json.encode(repository.toJson())).then((resp) {
-      if (resp.statusCode != 200) {
-        return Future.error('Failed to put repository: ${resp.body}');
+    await http.put(uri, body: body).then((resp) {
+      if (resp.statusCode != HttpStatus.ok) {
+        return Future.error(
+            'Failed to put repository: ${resp.statusCode} (${resp.body})');
       }
-      return null;
     });
   }
 
   @override
   Future deleteRepository(RepositoryURL url) async {
     final uri = Uri.parse('$apiEndpoint/repositories');
+    final body = {'url': url};
 
-    http.delete(uri, body: json.encode({'url': url})).then((resp) {
-      if (resp.statusCode != 200) {
-        return Future.error('Failed to delete repository: ${resp.body}');
+    await http.delete(uri, body: body).then((resp) {
+      if (resp.statusCode != HttpStatus.ok) {
+        return Future.error(
+            'Failed to delete repository: ${resp.statusCode} (${resp.body})');
       }
-      return null;
     });
   }
 }
