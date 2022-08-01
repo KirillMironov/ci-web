@@ -11,7 +11,7 @@ class Repositories implements RepositoriesService {
   final String apiEndpoint;
 
   @override
-  Future putRepository(Repository repository) async {
+  Future<void> putRepository(Repository repository) async {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = jsonEncode(repository.toJson());
 
@@ -24,7 +24,7 @@ class Repositories implements RepositoriesService {
   }
 
   @override
-  Future deleteRepository(RepositoryURL url) async {
+  Future<void> deleteRepository(RepositoryURL url) async {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = {'url': url};
 

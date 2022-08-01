@@ -9,6 +9,7 @@ class AddRepository extends StatelessWidget {
 
   final RepositoriesService repositoriesService;
 
+  final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();
   final _urlController = TextEditingController();
   final _branchController = TextEditingController();
@@ -23,45 +24,50 @@ class AddRepository extends StatelessWidget {
               pollingInterval: _pollingIntervalController.text))
           .then(Navigator.of(context).pop)
           .catchError((err) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(err.toString()),
-          duration: const Duration(seconds: 3),
-        ));
+        _scaffoldMessengerKey.currentState!
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+            content: Text(err),
+            duration: const Duration(seconds: 3),
+          ));
       });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Add repository'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InputField(
-                controller: _urlController,
-                hintText: 'url',
-              ),
-              InputField(
-                controller: _branchController,
-                hintText: 'branch',
-              ),
-              InputField(
-                controller: _pollingIntervalController,
-                hintText: 'polling interval',
-              ),
-              ElevatedButton(
-                onPressed: () => _addRepository(context),
-                child: const Text('Add'),
-              ),
-            ],
+    return ScaffoldMessenger(
+      key: _scaffoldMessengerKey,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Add repository'),
+        ),
+        body: Form(
+          key: _formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                InputField(
+                  controller: _urlController,
+                  hintText: 'url',
+                ),
+                InputField(
+                  controller: _branchController,
+                  hintText: 'branch',
+                ),
+                InputField(
+                  controller: _pollingIntervalController,
+                  hintText: 'polling interval',
+                ),
+                ElevatedButton(
+                  onPressed: () => _addRepository(context),
+                  child: const Text('Add'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
