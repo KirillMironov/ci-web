@@ -47,8 +47,9 @@ class AddRepository extends StatelessWidget {
             width: 1500,
             child: Form(
               key: _formKey,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,14 +58,17 @@ class AddRepository extends StatelessWidget {
                       controller: _urlController,
                       hintText: 'url',
                     ),
+                    const SizedBox(height: 8),
                     InputField(
                       controller: _branchController,
                       hintText: 'branch',
                     ),
+                    const SizedBox(height: 8),
                     InputField(
                       controller: _pollingIntervalController,
-                      hintText: 'polling interval',
+                      hintText: 'polling interval (3s, 5m, 1h)',
                     ),
+                    const SizedBox(height: 8),
                     ElevatedButton(
                       onPressed: () => _addRepository(context),
                       child: const Text('Add'),

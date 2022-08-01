@@ -16,6 +16,7 @@ class InputField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         labelText: hintText,
+        border: const OutlineInputBorder(),
       ),
       validator: (value) => value!.isEmpty ? '$hintText cannot be empty' : null,
     );
