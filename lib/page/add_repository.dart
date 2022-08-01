@@ -18,7 +18,7 @@ class AddRepository extends StatelessWidget {
   void _addRepository(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       await repositoriesService
-          .putRepository(Repository(
+          .add(Repository(
               url: _urlController.text,
               branch: _branchController.text,
               pollingInterval: _pollingIntervalController.text))

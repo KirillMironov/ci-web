@@ -11,7 +11,7 @@ class Repositories implements RepositoriesService {
   final String apiEndpoint;
 
   @override
-  Future<void> putRepository(Repository repository) async {
+  Future<void> add(Repository repository) async {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = jsonEncode(repository.toJson());
 
@@ -24,7 +24,7 @@ class Repositories implements RepositoriesService {
   }
 
   @override
-  Future<void> deleteRepository(RepositoryURL url) async {
+  Future<void> delete(RepositoryURL url) async {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = {'url': url};
 
@@ -34,5 +34,19 @@ class Repositories implements RepositoriesService {
             'Failed to delete repository: ${resp.statusCode} (${resp.body})');
       }
     });
+  }
+
+  @override
+  Future<List<Repository>> getAll() async {
+    final uri = Uri.parse('$apiEndpoint/repositories');
+    final resp = await http.get(uri);
+
+    if (resp.statusCode != HttpStatus.ok) {
+      return Future.error(
+          'Failed to get all repositories: ${resp.statusCode} (${resp.body})');
+    }
+    return (jsonDecode(resp.body)['repositories'] as List)
+        .map((data) => Repository.fromJson(data))
+        .toList();
   }
 }
