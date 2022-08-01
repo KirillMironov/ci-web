@@ -2,6 +2,8 @@ import 'package:ci_web/domain/repository.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:flutter/material.dart';
 
+import '../widget/repository_card.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage(this.repositoriesService);
 
@@ -25,30 +27,39 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: FutureBuilder<List<Repository>>(
-        future: widget.repositoriesService.getAll(),
-        builder: (_, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data?.length,
-              itemBuilder: (_, index) {
-                final repository = snapshot.data![index];
-                return ListTile(
-                  title: Text(repository.url),
-                  subtitle: Text(repository.latestCommit),
+      body: Center(
+        child: SizedBox(
+          width: 1500,
+          child: FutureBuilder<List<Repository>>(
+            future: widget.repositoriesService.getAll(),
+            builder: (_, snapshot) {
+              if (snapshot.hasData) {
+                return ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: (_, index) {
+                    return Column(
+                      children: [
+                        RepositoryCard(
+                          repository: snapshot.data![index],
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                    );
+                  },
                 );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text(snapshot.error.toString()),
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(snapshot.error.toString()),
+                );
+              } else {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+          ),
+        ),
       ),
     );
   }

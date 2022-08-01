@@ -28,6 +28,7 @@ class App extends StatelessWidget {
       theme: theme.copyWith(
         colorScheme: ColorScheme.fromSwatch(
           primarySwatch: primaryColor,
+          backgroundColor: Colors.grey[50],
         ),
       ),
       debugShowCheckedModeBanner: false,

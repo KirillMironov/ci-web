@@ -42,31 +42,36 @@ class AddRepository extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Add repository'),
         ),
-        body: Form(
-          key: _formKey,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                InputField(
-                  controller: _urlController,
-                  hintText: 'url',
+        body: Center(
+          child: SizedBox(
+            width: 1500,
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    InputField(
+                      controller: _urlController,
+                      hintText: 'url',
+                    ),
+                    InputField(
+                      controller: _branchController,
+                      hintText: 'branch',
+                    ),
+                    InputField(
+                      controller: _pollingIntervalController,
+                      hintText: 'polling interval',
+                    ),
+                    ElevatedButton(
+                      onPressed: () => _addRepository(context),
+                      child: const Text('Add'),
+                    ),
+                  ],
                 ),
-                InputField(
-                  controller: _branchController,
-                  hintText: 'branch',
-                ),
-                InputField(
-                  controller: _pollingIntervalController,
-                  hintText: 'polling interval',
-                ),
-                ElevatedButton(
-                  onPressed: () => _addRepository(context),
-                  child: const Text('Add'),
-                ),
-              ],
+              ),
             ),
           ),
         ),
