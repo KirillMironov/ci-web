@@ -2,6 +2,7 @@ import 'package:ci_web/page/add_repository.dart';
 import 'package:ci_web/page/home.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:ci_web/service/repositories.dart';
+import 'package:ci_web/widget/primary_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -12,7 +13,6 @@ void main() {
 
 class App extends StatelessWidget {
   final ThemeData theme = ThemeData();
-  final Color mainColor = const Color(0xFFFFAB91);
   final RepositoriesService service =
       Repositories('http://localhost:8080/api/v1');
 
@@ -26,10 +26,9 @@ class App extends StatelessWidget {
         '/add': (context) => AddRepository(service),
       },
       theme: theme.copyWith(
-        primaryColor: mainColor,
-        colorScheme: theme.colorScheme.copyWith(secondary: mainColor),
-        appBarTheme: theme.appBarTheme.copyWith(
-            backgroundColor: mainColor, foregroundColor: Colors.black),
+        colorScheme: ColorScheme.fromSwatch(
+          primarySwatch: primaryColor,
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
