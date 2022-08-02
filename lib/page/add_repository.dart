@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 import '../port/repositories.dart';
 
-class AddRepository extends StatelessWidget {
-  AddRepository(this.repositoriesService);
+class AddRepositoryPage extends StatelessWidget {
+  AddRepositoryPage(this.repositoriesService);
 
   final RepositoriesService repositoriesService;
+
+  static const routeName = '/repositories';
 
   final _scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
   final _formKey = GlobalKey<FormState>();

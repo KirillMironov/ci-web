@@ -1,19 +1,17 @@
 import 'package:ci_web/domain/repository.dart';
+import 'package:ci_web/page/add_repository.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:flutter/material.dart';
 
 import '../widget/repository_card.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   const HomePage(this.repositoriesService);
 
   final RepositoriesService repositoriesService;
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+  static const routeName = '/';
 
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +21,8 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Add repository',
-            onPressed: () => Navigator.pushNamed(context, '/add'),
+            onPressed: () =>
+                Navigator.pushNamed(context, AddRepositoryPage.routeName),
           ),
         ],
       ),
@@ -31,7 +30,7 @@ class _HomePageState extends State<HomePage> {
         child: SizedBox(
           width: 1500,
           child: FutureBuilder<List<Repository>>(
-            future: widget.repositoriesService.getAll(),
+            future: repositoriesService.getAll(),
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());

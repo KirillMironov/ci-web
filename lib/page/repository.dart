@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Repository extends StatelessWidget {
-  const Repository({required this.id});
+class RepositoryPage extends StatelessWidget {
+  const RepositoryPage(this.id);
+
   final String id;
 
   @override

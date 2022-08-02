@@ -21,17 +21,17 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'ci-web',
-      initialRoute: '/',
+      initialRoute: HomePage.routeName,
       routes: {
-        '/': (context) => HomePage(service),
-        '/add': (context) => AddRepository(service),
+        HomePage.routeName: (context) => HomePage(service),
+        AddRepositoryPage.routeName: (context) => AddRepositoryPage(service),
       },
       onGenerateRoute: (settings) {
         if (settings.name!.startsWith('/repositories/')) {
           final id = settings.name!.substring('/repositories/'.length);
           if (id.isNotEmpty) {
             return MaterialPageRoute(
-              builder: (context) => Repository(id: id),
+              builder: (context) => RepositoryPage(id),
             );
           }
         }
