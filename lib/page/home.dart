@@ -33,30 +33,27 @@ class _HomePageState extends State<HomePage> {
           child: FutureBuilder<List<Repository>>(
             future: widget.repositoriesService.getAll(),
             builder: (_, snapshot) {
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: snapshot.data?.length,
-                  itemBuilder: (_, index) {
-                    return Column(
-                      children: [
-                        RepositoryCard(
-                          repository: snapshot.data![index],
-                        ),
-                        const SizedBox(height: 10),
-                      ],
-                    );
-                  },
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.error.toString()),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
               }
+              if (snapshot.hasError) {
+                return Center(child: Text(snapshot.error.toString()));
+              }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(child: Text('Add a repository \u2197'));
+              }
+              return ListView.builder(
+                padding: const EdgeInsets.all(8),
+                itemCount: snapshot.data?.length,
+                itemBuilder: (_, index) {
+                  return Column(
+                    children: [
+                      RepositoryCard(repository: snapshot.data![index]),
+                      const SizedBox(height: 10),
+                    ],
+                  );
+                },
+              );
             },
           ),
         ),

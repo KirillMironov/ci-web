@@ -11,11 +11,11 @@ class Repositories implements RepositoriesService {
   final String apiEndpoint;
 
   @override
-  Future<void> add(Repository repository) async {
+  Future<void> add(Repository repository) {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = jsonEncode(repository.toJson());
 
-    await http.put(uri, body: body).then((resp) {
+    return http.put(uri, body: body).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
         return Future.error(
             'Failed to put repository: ${resp.statusCode} (${resp.body})');
@@ -24,11 +24,11 @@ class Repositories implements RepositoriesService {
   }
 
   @override
-  Future<void> delete(RepositoryURL url) async {
+  Future<void> delete(RepositoryURL url) {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = {'url': url};
 
-    await http.delete(uri, body: body).then((resp) {
+    return http.delete(uri, body: body).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
         return Future.error(
             'Failed to delete repository: ${resp.statusCode} (${resp.body})');
@@ -37,16 +37,19 @@ class Repositories implements RepositoriesService {
   }
 
   @override
-  Future<List<Repository>> getAll() async {
+  Future<List<Repository>> getAll() {
     final uri = Uri.parse('$apiEndpoint/repositories');
-    final resp = await http.get(uri);
 
-    if (resp.statusCode != HttpStatus.ok) {
-      return Future.error(
-          'Failed to get all repositories: ${resp.statusCode} (${resp.body})');
-    }
-    return (jsonDecode(resp.body)['repositories'] as List)
-        .map((data) => Repository.fromJson(data))
-        .toList();
+    return http.get(uri).then((resp) {
+      if (resp.statusCode != HttpStatus.ok) {
+        return Future.error(
+            'Failed to get repositories: ${resp.statusCode} (${resp.body})');
+      }
+
+      final data = jsonDecode(resp.body)['repositories'];
+      return data is List
+          ? data.map((repository) => Repository.fromJson(repository)).toList()
+          : [];
+    });
   }
 }
