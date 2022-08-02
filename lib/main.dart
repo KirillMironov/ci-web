@@ -1,5 +1,6 @@
 import 'package:ci_web/page/add_repository.dart';
 import 'package:ci_web/page/home.dart';
+import 'package:ci_web/page/repository.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:ci_web/service/repositories.dart';
 import 'package:ci_web/widget/primary_color.dart';
@@ -24,6 +25,17 @@ class App extends StatelessWidget {
       routes: {
         '/': (context) => HomePage(service),
         '/add': (context) => AddRepository(service),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name!.startsWith('/repositories/')) {
+          final id = settings.name!.substring('/repositories/'.length);
+          if (id.isNotEmpty) {
+            return MaterialPageRoute(
+              builder: (context) => Repository(id: id),
+            );
+          }
+        }
+        return null;
       },
       theme: theme.copyWith(
         colorScheme: ColorScheme.fromSwatch(
