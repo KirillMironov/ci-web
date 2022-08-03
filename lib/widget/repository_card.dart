@@ -1,6 +1,10 @@
 import 'package:ci_web/domain/repository.dart';
 import 'package:flutter/material.dart';
 
+extension StringTaker on String {
+  String take(int n) => substring(0, n.clamp(0, length));
+}
+
 class RepositoryCard extends StatelessWidget {
   const RepositoryCard({required this.repository});
 
@@ -50,7 +54,7 @@ class RepositoryCard extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 Text(
-                  repository.latestCommit.substring(0, 7),
+                  repository.latestCommit.take(7),
                   style: const TextStyle(
                     fontSize: 13,
                     color: Colors.grey,
