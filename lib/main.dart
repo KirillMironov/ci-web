@@ -31,7 +31,7 @@ class App extends StatelessWidget {
           final id = settings.name!.substring('/repositories/'.length);
           if (id.isNotEmpty) {
             return MaterialPageRoute(
-              builder: (context) => RepositoryPage(id),
+              builder: (context) => RepositoryPage(id, service),
             );
           }
         }

@@ -1,5 +1,6 @@
 import 'package:ci_web/domain/repository.dart';
 import 'package:ci_web/page/add_repository.dart';
+import 'package:ci_web/page/repository.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:flutter/material.dart';
 
@@ -44,10 +45,17 @@ class HomePage extends StatelessWidget {
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
                 itemCount: snapshot.data?.length,
-                itemBuilder: (_, index) {
+                itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      RepositoryCard(repository: snapshot.data![index]),
+                      GestureDetector(
+                        onTap: () =>
+                        Navigator.pushNamed(
+                            context,
+                            RepositoryPage.routeName(snapshot.data![index].id),
+                        ),
+                        child: RepositoryCard(repository: snapshot.data![index]),
+                      ),
                       const SizedBox(height: 10),
                     ],
                   );

@@ -37,6 +37,19 @@ class Repositories implements RepositoriesService {
   }
 
   @override
+  Future<Repository> getById(String id) {
+    final uri = Uri.parse('$apiEndpoint/repositories/$id');
+    return http.get(uri).then((resp) {
+      if (resp.statusCode != HttpStatus.ok) {
+        return Future.error(
+            'Failed to get repository: ${resp.statusCode} (${resp.body})');
+      }
+
+      return Repository.fromJson(jsonDecode(resp.body));
+    });
+  }
+
+  @override
   Future<List<Repository>> getAll() {
     final uri = Uri.parse('$apiEndpoint/repositories');
 
