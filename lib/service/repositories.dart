@@ -24,7 +24,7 @@ class Repositories implements RepositoriesService {
   }
 
   @override
-  Future<void> delete(RepositoryURL url) {
+  Future<void> delete(String url) {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = {'url': url};
 

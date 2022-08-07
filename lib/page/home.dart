@@ -49,12 +49,12 @@ class HomePage extends StatelessWidget {
                   return Column(
                     children: [
                       GestureDetector(
-                        onTap: () =>
-                        Navigator.pushNamed(
-                            context,
-                            RepositoryPage.routeName(snapshot.data![index].id),
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          RepositoryPage.routeName(snapshot.data![index].id),
                         ),
-                        child: RepositoryCard(repository: snapshot.data![index]),
+                        child:
+                            RepositoryCard(repository: snapshot.data![index]),
                       ),
                       const SizedBox(height: 10),
                     ],

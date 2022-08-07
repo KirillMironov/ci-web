@@ -39,6 +39,7 @@ class RepositoryPage extends StatelessWidget {
                   Text(snapshot.data!.branch),
                   Text(snapshot.data!.latestCommit.toString()),
                   Text(snapshot.data!.pollingInterval.toString()),
+                  Text(snapshot.data!.builds?.toString() ?? ''),
                 ],
               );
             },

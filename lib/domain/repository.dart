@@ -1,26 +1,26 @@
-typedef RepositoryURL = String;
+import 'build.dart';
 
 class Repository {
-  Repository({
-    required this.url,
-    required this.branch,
-    required this.pollingInterval,
-    this.id = '',
-    this.latestCommit = '',
-  });
-
-  final String id;
-  final RepositoryURL url;
+  late final String id;
+  final String url;
   final String branch;
   final String pollingInterval;
-  final String latestCommit;
+  late final String? latestCommit;
+  late final List<Build>? builds;
+
+  Repository.forAdd(this.url, this.branch, this.pollingInterval);
 
   Repository.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         url = json['url'],
         branch = json['branch'] ?? '',
-        latestCommit = json['latest_commit'] ?? '',
-        pollingInterval = json['polling_interval'] ?? '';
+        pollingInterval = json['polling_interval'] ?? '',
+        latestCommit = json['latest_commit'],
+        builds = json['builds'] != null
+            ? (json['builds'] as List<dynamic>)
+                .map((data) => Build.fromJson(data))
+                .toList()
+            : null;
 
   Map<String, dynamic> toJson() => {
         'url': url,

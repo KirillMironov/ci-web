@@ -54,7 +54,7 @@ class RepositoryCard extends StatelessWidget {
                   color: Colors.grey,
                 ),
                 Text(
-                  repository.latestCommit.take(7),
+                  repository.latestCommit!.take(7),
                   style: const TextStyle(
                     fontSize: 13,
                     color: Colors.grey,

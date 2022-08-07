@@ -1,7 +1,7 @@
-import 'package:ci_web/domain/repository.dart';
 import 'package:ci_web/widget/input_field.dart';
 import 'package:flutter/material.dart';
 
+import '../domain/repository.dart';
 import '../port/repositories.dart';
 
 class AddRepositoryPage extends StatelessWidget {
@@ -20,10 +20,13 @@ class AddRepositoryPage extends StatelessWidget {
   void _addRepository(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       await repositoriesService
-          .add(Repository(
-              url: _urlController.text,
-              branch: _branchController.text,
-              pollingInterval: _pollingIntervalController.text))
+          .add(
+            Repository.forAdd(
+              _urlController.text,
+              _branchController.text,
+              _pollingIntervalController.text,
+            ),
+          )
           .then(Navigator.of(context).pop)
           .catchError((err) {
         _scaffoldMessengerKey.currentState!
