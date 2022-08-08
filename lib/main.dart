@@ -28,16 +28,18 @@ class App extends StatelessWidget {
         AddRepositoryPage.routeName: (_) => AddRepositoryPage(service),
       },
       onGenerateRoute: (settings) {
+        Widget page = NotFoundPage();
+
         if (settings.name!.startsWith('/repositories/')) {
           final id = settings.name!.substring('/repositories/'.length);
           if (id.isNotEmpty) {
-            return MaterialPageRoute(
-              builder: (_) => RepositoryPage(id, service),
-            );
+            page = RepositoryPage(id, service);
           }
         }
+
         return MaterialPageRoute(
-          builder: (_) => NotFoundPage(),
+          settings: settings,
+          builder: (_) => page,
         );
       },
       theme: theme.copyWith(

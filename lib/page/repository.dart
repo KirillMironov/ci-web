@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../domain/repository.dart';
 import '../port/repositories.dart';
+import '../widget/build_card.dart';
 
 class RepositoryPage extends StatelessWidget {
   const RepositoryPage(this.id, this.repositoriesService);
@@ -32,15 +33,11 @@ class RepositoryPage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: Text('Not found'));
               }
-              return Column(
-                children: [
-                  Text(snapshot.data!.id),
-                  Text(snapshot.data!.url),
-                  Text(snapshot.data!.branch),
-                  Text(snapshot.data!.latestCommit.toString()),
-                  Text(snapshot.data!.pollingInterval.toString()),
-                  Text(snapshot.data!.builds?.toString() ?? ''),
-                ],
+              return ListView.builder(
+                itemCount: snapshot.data!.builds!.length,
+                itemBuilder: (_, index) {
+                  return BuildCard(snapshot.data!.builds![index]);
+                },
               );
             },
           ),

@@ -6,7 +6,7 @@ extension StringTaker on String {
 }
 
 class RepositoryCard extends StatelessWidget {
-  const RepositoryCard({required this.repository});
+  const RepositoryCard(this.repository);
 
   final Repository repository;
 

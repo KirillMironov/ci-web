@@ -53,8 +53,7 @@ class HomePage extends StatelessWidget {
                           context,
                           RepositoryPage.routeName(snapshot.data![index].id),
                         ),
-                        child:
-                            RepositoryCard(repository: snapshot.data![index]),
+                        child: RepositoryCard(snapshot.data![index]),
                       ),
                       const SizedBox(height: 10),
                     ],
