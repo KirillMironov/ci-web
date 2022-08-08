@@ -4,7 +4,6 @@ import 'package:ci_web/page/not_found.dart';
 import 'package:ci_web/page/repository.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:ci_web/service/repositories.dart';
-import 'package:ci_web/widget/primary_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -44,9 +43,9 @@ class App extends StatelessWidget {
       },
       theme: theme.copyWith(
         colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: primaryColor,
-          backgroundColor: Colors.grey[50],
+          primarySwatch: Colors.indigo,
         ),
+        scaffoldBackgroundColor: Colors.grey[200],
       ),
       debugShowCheckedModeBanner: false,
     );

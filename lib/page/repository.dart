@@ -1,3 +1,4 @@
+import 'package:ci_web/widget/hover_box.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/repository.dart';
@@ -34,9 +35,19 @@ class RepositoryPage extends StatelessWidget {
                 return const Center(child: Text('Not found'));
               }
               return ListView.builder(
+                padding: const EdgeInsets.all(8),
                 itemCount: snapshot.data!.builds!.length,
                 itemBuilder: (_, index) {
-                  return BuildCard(snapshot.data!.builds![index]);
+                  return Column(
+                    children: [
+                      HoverBox(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(12),
+                        child: BuildCard(snapshot.data!.builds![index]),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
+                  );
                 },
               );
             },

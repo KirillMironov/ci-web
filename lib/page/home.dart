@@ -2,6 +2,7 @@ import 'package:ci_web/domain/repository.dart';
 import 'package:ci_web/page/add_repository.dart';
 import 'package:ci_web/page/repository.dart';
 import 'package:ci_web/port/repositories.dart';
+import 'package:ci_web/widget/hover_box.dart';
 import 'package:flutter/material.dart';
 
 import '../widget/repository_card.dart';
@@ -48,11 +49,12 @@ class HomePage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
-                      GestureDetector(
+                      HoverBox(
                         onTap: () => Navigator.pushNamed(
                           context,
                           RepositoryPage.routeName(snapshot.data![index].id),
                         ),
+                        borderRadius: BorderRadius.circular(12),
                         child: RepositoryCard(snapshot.data![index]),
                       ),
                       const SizedBox(height: 10),
