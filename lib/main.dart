@@ -1,5 +1,6 @@
 import 'package:ci_web/page/add_repository.dart';
 import 'package:ci_web/page/home.dart';
+import 'package:ci_web/page/not_found.dart';
 import 'package:ci_web/page/repository.dart';
 import 'package:ci_web/port/repositories.dart';
 import 'package:ci_web/service/repositories.dart';
@@ -23,19 +24,21 @@ class App extends StatelessWidget {
       title: 'ci-web',
       initialRoute: HomePage.routeName,
       routes: {
-        HomePage.routeName: (context) => HomePage(service),
-        AddRepositoryPage.routeName: (context) => AddRepositoryPage(service),
+        HomePage.routeName: (_) => HomePage(service),
+        AddRepositoryPage.routeName: (_) => AddRepositoryPage(service),
       },
       onGenerateRoute: (settings) {
         if (settings.name!.startsWith('/repositories/')) {
           final id = settings.name!.substring('/repositories/'.length);
           if (id.isNotEmpty) {
             return MaterialPageRoute(
-              builder: (context) => RepositoryPage(id, service),
+              builder: (_) => RepositoryPage(id, service),
             );
           }
         }
-        return null;
+        return MaterialPageRoute(
+          builder: (_) => NotFoundPage(),
+        );
       },
       theme: theme.copyWith(
         colorScheme: ColorScheme.fromSwatch(
