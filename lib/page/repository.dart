@@ -36,7 +36,7 @@ class RepositoryPage extends StatelessWidget {
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: snapshot.data!.builds!.length,
+                itemCount: snapshot.data?.builds?.length ?? 0,
                 itemBuilder: (_, index) {
                   return Column(
                     children: [

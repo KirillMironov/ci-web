@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
               }
               return ListView.builder(
                 padding: const EdgeInsets.all(8),
-                itemCount: snapshot.data?.length,
+                itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
