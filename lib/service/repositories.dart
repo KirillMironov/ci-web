@@ -10,12 +10,16 @@ class Repositories implements RepositoriesService {
 
   final String apiEndpoint;
 
+  final Map<String, String> headers = {
+    HttpHeaders.contentTypeHeader: 'application/json'
+  };
+
   @override
   Future<void> add(Repository repository) {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = jsonEncode(repository.toJson());
 
-    return http.put(uri, body: body).then((resp) {
+    return http.put(uri, headers: headers, body: body).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
         return Future.error(
             'Failed to put repository: ${resp.statusCode} (${resp.body})');
@@ -28,7 +32,7 @@ class Repositories implements RepositoriesService {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = {'url': url};
 
-    return http.delete(uri, body: body).then((resp) {
+    return http.delete(uri, headers: headers, body: body).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
         return Future.error(
             'Failed to delete repository: ${resp.statusCode} (${resp.body})');
