@@ -5,13 +5,26 @@ import '../domain/repository.dart';
 import '../port/repositories.dart';
 import '../widget/build_card.dart';
 
-class RepositoryPage extends StatelessWidget {
+class RepositoryPage extends StatefulWidget {
   const RepositoryPage(this.id, this.repositoriesService);
 
   final String id;
   final RepositoriesService repositoriesService;
 
   static String routeName(String id) => '/repositories/$id';
+
+  @override
+  State<RepositoryPage> createState() => _RepositoryPageState();
+}
+
+class _RepositoryPageState extends State<RepositoryPage> {
+  late Future<Repository> _repository;
+
+  @override
+  void initState() {
+    super.initState();
+    _repository = widget.repositoriesService.getById(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +36,7 @@ class RepositoryPage extends StatelessWidget {
         child: SizedBox(
           width: 1500,
           child: FutureBuilder<Repository>(
-            future: repositoriesService.getById(id),
+            future: _repository,
             builder: (_, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -34,21 +47,15 @@ class RepositoryPage extends StatelessWidget {
               if (!snapshot.hasData) {
                 return const Center(child: Text('Not found'));
               }
-              return ListView.builder(
+              return ListView.separated(
                 padding: const EdgeInsets.all(8),
                 itemCount: snapshot.data?.builds?.length ?? 0,
-                itemBuilder: (_, index) {
-                  return Column(
-                    children: [
-                      HoverBox(
-                        onTap: () {},
-                        borderRadius: BorderRadius.circular(12),
-                        child: BuildCard(snapshot.data!.builds![index]),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  );
-                },
+                separatorBuilder: (_, __) => const SizedBox(height: 8),
+                itemBuilder: (context, index) => HoverBox(
+                  onTap: () {},
+                  borderRadius: BorderRadius.circular(12),
+                  child: BuildCard(snapshot.data!.builds![index]),
+                ),
               );
             },
           ),

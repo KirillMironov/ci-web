@@ -1,8 +1,8 @@
-import 'package:ci_web/widget/input_field.dart';
 import 'package:flutter/material.dart';
 
 import '../domain/repository.dart';
 import '../port/repositories.dart';
+import '../widget/input_field.dart';
 
 class AddRepositoryPage extends StatelessWidget {
   AddRepositoryPage(this.repositoriesService);
@@ -48,38 +48,36 @@ class AddRepositoryPage extends StatelessWidget {
           title: const Text('Add repository'),
         ),
         body: Center(
-          child: SizedBox(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             width: 1500,
             child: Form(
               key: _formKey,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    InputField(
-                      controller: _urlController,
-                      hintText: 'url',
-                    ),
-                    const SizedBox(height: 8),
-                    InputField(
-                      controller: _branchController,
-                      hintText: 'branch',
-                    ),
-                    const SizedBox(height: 8),
-                    InputField(
-                      controller: _pollingIntervalController,
-                      hintText: 'polling interval (3s, 5m, 1h)',
-                    ),
-                    const SizedBox(height: 8),
-                    ElevatedButton(
-                      onPressed: () => _addRepository(context),
-                      child: const Text('Add'),
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  InputField(
+                    controller: _urlController,
+                    hintText: 'url',
+                  ),
+                  const SizedBox(height: 8),
+                  InputField(
+                    controller: _branchController,
+                    hintText: 'branch',
+                  ),
+                  const SizedBox(height: 8),
+                  InputField(
+                    controller: _pollingIntervalController,
+                    hintText: 'polling interval (3s, 5m, 1h)',
+                  ),
+                  const SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => _addRepository(context),
+                    child: const Text('Add'),
+                  ),
+                ],
               ),
             ),
           ),

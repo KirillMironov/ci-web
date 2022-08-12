@@ -21,8 +21,7 @@ class Repositories implements RepositoriesService {
 
     return http.put(uri, headers: headers, body: body).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
-        return Future.error(
-            'Failed to put repository: ${resp.statusCode} (${resp.body})');
+        return Future.error('Failed to put repository: ${resp.body}');
       }
     });
   }
@@ -34,8 +33,7 @@ class Repositories implements RepositoriesService {
 
     return http.delete(uri, headers: headers, body: body).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
-        return Future.error(
-            'Failed to delete repository: ${resp.statusCode} (${resp.body})');
+        return Future.error('Failed to delete repository: ${resp.body}');
       }
     });
   }
@@ -45,8 +43,7 @@ class Repositories implements RepositoriesService {
     final uri = Uri.parse('$apiEndpoint/repositories/$id');
     return http.get(uri).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
-        return Future.error(
-            'Failed to get repository: ${resp.statusCode} (${resp.body})');
+        return Future.error('Failed to get repository: ${resp.body}');
       }
 
       return Repository.fromJson(jsonDecode(resp.body));
@@ -59,8 +56,7 @@ class Repositories implements RepositoriesService {
 
     return http.get(uri).then((resp) {
       if (resp.statusCode != HttpStatus.ok) {
-        return Future.error(
-            'Failed to get repositories: ${resp.statusCode} (${resp.body})');
+        return Future.error('Failed to get repositories: ${resp.body}');
       }
 
       final data = jsonDecode(resp.body)['repositories'];

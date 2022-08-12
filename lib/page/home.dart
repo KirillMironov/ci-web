@@ -7,12 +7,25 @@ import 'package:flutter/material.dart';
 
 import '../widget/repository_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage(this.repositoriesService);
 
   final RepositoriesService repositoriesService;
 
   static const routeName = '/';
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late Future<List<Repository>> _repositories;
+
+  @override
+  void initState() {
+    super.initState();
+    _repositories = widget.repositoriesService.getAll();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +45,8 @@ class HomePage extends StatelessWidget {
         child: SizedBox(
           width: 1500,
           child: FutureBuilder<List<Repository>>(
-            future: repositoriesService.getAll(),
-            builder: (_, snapshot) {
+            future: _repositories,
+            builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
@@ -43,24 +56,18 @@ class HomePage extends StatelessWidget {
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(child: Text('Add a repository \u2197'));
               }
-              return ListView.builder(
+              return ListView.separated(
                 padding: const EdgeInsets.all(8),
-                itemCount: snapshot.data?.length ?? 0,
-                itemBuilder: (context, index) {
-                  return Column(
-                    children: [
-                      HoverBox(
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          RepositoryPage.routeName(snapshot.data![index].id),
-                        ),
-                        borderRadius: BorderRadius.circular(12),
-                        child: RepositoryCard(snapshot.data![index]),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  );
-                },
+                itemCount: snapshot.data!.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 8),
+                itemBuilder: (context, index) => HoverBox(
+                  onTap: () => Navigator.pushNamed(
+                    context,
+                    RepositoryPage.routeName(snapshot.data![index].id),
+                  ),
+                  borderRadius: BorderRadius.circular(12),
+                  child: RepositoryCard(snapshot.data![index]),
+                ),
               );
             },
           ),
