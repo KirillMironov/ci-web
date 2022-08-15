@@ -2,7 +2,9 @@ import 'package:ci_web/page/add_repository.dart';
 import 'package:ci_web/page/home.dart';
 import 'package:ci_web/page/not_found.dart';
 import 'package:ci_web/page/repository.dart';
+import 'package:ci_web/port/builds.dart';
 import 'package:ci_web/port/repositories.dart';
+import 'package:ci_web/service/builds.dart';
 import 'package:ci_web/service/repositories.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
@@ -12,10 +14,13 @@ void main() {
   runApp(App());
 }
 
+const String apiEndpoint = 'http://localhost:8080/api/v1';
+
 class App extends StatelessWidget {
   final ThemeData theme = ThemeData();
-  final RepositoriesService service =
-      Repositories('http://localhost:8080/api/v1');
+
+  final RepositoriesService repositoriesService = Repositories(apiEndpoint);
+  final BuildsService buildsService = Builds(apiEndpoint);
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +28,9 @@ class App extends StatelessWidget {
       title: 'ci-web',
       initialRoute: HomePage.routeName,
       routes: {
-        HomePage.routeName: (_) => HomePage(service),
-        AddRepositoryPage.routeName: (_) => AddRepositoryPage(service),
+        HomePage.routeName: (_) => HomePage(repositoriesService),
+        AddRepositoryPage.routeName: (_) =>
+            AddRepositoryPage(repositoriesService),
       },
       onGenerateRoute: (settings) {
         Widget page = NotFoundPage();
@@ -32,7 +38,7 @@ class App extends StatelessWidget {
         if (settings.name!.startsWith('/repositories/')) {
           final id = settings.name!.substring('/repositories/'.length);
           if (id.isNotEmpty) {
-            page = RepositoryPage(id, service);
+            page = RepositoryPage(id, repositoriesService, buildsService);
           }
         }
 

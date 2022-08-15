@@ -37,21 +37,21 @@ class RepositoryCard extends StatelessWidget {
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
+              children: const [
+                Icon(
                   Icons.commit,
                   color: Colors.grey,
                 ),
-                Text(
-                  repository.latestCommit!.take(7),
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                // Text(
+                //   repository.latestCommit!.take(7),
+                //   style: const TextStyle(
+                //     fontSize: 13,
+                //     color: Colors.grey,
+                //     fontWeight: FontWeight.w500,
+                //   ),
+                //   maxLines: 1,
+                //   overflow: TextOverflow.ellipsis,
+                // ),
               ],
             ),
           )

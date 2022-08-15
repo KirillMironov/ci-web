@@ -21,7 +21,7 @@ class AddRepositoryPage extends StatelessWidget {
     if (_formKey.currentState!.validate()) {
       await repositoriesService
           .add(
-            Repository.forAdd(
+            Repository(
               _urlController.text,
               _branchController.text,
               _pollingIntervalController.text,

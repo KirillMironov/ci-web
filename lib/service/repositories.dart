@@ -19,8 +19,8 @@ class Repositories implements RepositoriesService {
     final uri = Uri.parse('$apiEndpoint/repositories');
     final body = jsonEncode(repository.toJson());
 
-    return http.put(uri, headers: headers, body: body).then((resp) {
-      if (resp.statusCode != HttpStatus.ok) {
+    return http.post(uri, headers: headers, body: body).then((resp) {
+      if (resp.statusCode != HttpStatus.created) {
         return Future.error('Failed to put repository: ${resp.body}');
       }
     });
@@ -32,7 +32,7 @@ class Repositories implements RepositoriesService {
     final body = {'url': url};
 
     return http.delete(uri, headers: headers, body: body).then((resp) {
-      if (resp.statusCode != HttpStatus.ok) {
+      if (resp.statusCode != HttpStatus.noContent) {
         return Future.error('Failed to delete repository: ${resp.body}');
       }
     });
