@@ -1,8 +1,10 @@
 class Repository {
-  late final String id;
   final String url;
   final String branch;
   final String pollingInterval;
+
+  late final String id;
+  late final DateTime createdAt;
 
   Repository(this.url, this.branch, this.pollingInterval);
 
@@ -10,7 +12,8 @@ class Repository {
       : id = json['id'],
         url = json['url'],
         branch = json['branch'],
-        pollingInterval = json['polling_interval'];
+        pollingInterval = json['polling_interval'],
+        createdAt = DateTime.parse(json['created_at']);
 
   Map<String, dynamic> toJson() => {
         'url': url,
