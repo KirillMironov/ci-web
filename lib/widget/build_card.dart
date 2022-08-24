@@ -15,9 +15,18 @@ class BuildCard extends StatelessWidget {
       width: double.infinity,
       child: Row(
         children: [
-          _build.status == Status.success.name
-              ? const Icon(Icons.check, color: Colors.green)
-              : const Icon(Icons.close, color: Colors.red),
+          (() {
+            switch (_build.status) {
+              case Status.success:
+                return const Icon(Icons.check, color: Colors.green);
+              case Status.failure:
+                return const Icon(Icons.close, color: Colors.red);
+              case Status.skipped:
+                return const Icon(Icons.cancel_outlined, color: Colors.grey);
+              default:
+                return const Icon(Icons.settings, color: Colors.orangeAccent);
+            }
+          }()),
           const SizedBox(width: 10),
           Text(_build.commit.hash),
         ],
